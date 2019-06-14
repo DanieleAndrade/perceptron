@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class Neurona {
+public class Neuronio {
 
     private static double[] entradasX;
-    private static double classe;
-    
+    private static int saida;
+
 	private int verifica(double resultado) {
 
 		if (resultado < 0) {
@@ -14,7 +14,7 @@ public class Neurona {
 		}
 	}
 
-	private int perceptron(Double[] entradas, Double[] pesos) {
+	private int perceptron(Double[] entradas, Double[] pesos, List<int> saidas) {
 
 		double resultado = 0.0;
 
@@ -28,19 +28,19 @@ public class Neurona {
 
 		return verifica(resultado);
 	}
-	
-	private void treinamento(Double[] entradas, Double[] pesos) {
-		
+
+	private void treinamento(Double[] entradas, Double[] pesos, List<int> saidas) {
+
 		int retornoPerceptron = perceptron(entradas, pesos);
-		
+
 	}
-	
-    private static void separarEntradas(double[] itemX)
+
+    private static void separarEntradas(double[] itemEntrada, List<int> saidas)
     {
     	int bias = 1;
-    	
-        entradasX = new double[] { itemX[0], itemX[1], bias };
-        classe = itemX[2];
+      entradasX = new double[] { itemEntrada[0], itemEntrada[1], bias };
+      saida = saidas[0];
+
     }
 
 }
