@@ -2,8 +2,8 @@ import java.util.List;
 
 public class Neuronio {
 
-    private static double[] entradasX;
-    private static int saida;
+	private static Double[] entradasX;
+	private static int saida;
 
 	private int verifica(double resultado) {
 
@@ -14,7 +14,7 @@ public class Neuronio {
 		}
 	}
 
-	private int perceptron(Double[] entradas, Double[] pesos, List<int> saidas) {
+	private int perceptron(Double[] entradas, double[] pesos) {
 
 		double resultado = 0.0;
 
@@ -29,18 +29,59 @@ public class Neuronio {
 		return verifica(resultado);
 	}
 
-	private void treinamento(Double[] entradas, Double[] pesos, List<int> saidas) {
+	public static double[] atualizarPesos(Double[] entradasX2, double[] pesos, int saidaEsperada, int saidaPerceptron) {
+		int j = 0;
+		double aprendizado = 0.2;
 
-		int retornoPerceptron = perceptron(entradas, pesos);
+		for (int i = 0; i < pesos.length; i++) {
+			for (j = j; j < entradasX.length; j++) {
+				pesos[i] = pesos[i] + aprendizado * (saidaEsperada - saidaPerceptron) * entradasX[j];
+				j = j + 1;
+				break;
+			}
+		}
+
+		return pesos;
+	}
+
+	public void treinamento(List<Double[]> entradas, double[] pesos, List<Integer> saidas) {
+
+		boolean erro = true;
+		int saidaEsperada = saida;
+
+		for (Double[] entrada : entradas) {
+
+			separarEntradas(entrada, saidas);
+
+			while (erro) {
+
+				int saidaPerceptron = perceptron(entradasX, pesos);
+
+				if (saidaEsperada == saidaPerceptron) {
+					erro = false;
+					System.out.println(
+							"Não houve erro para essa interação" + entrada[0] + "," + entrada[1] + ", " + saida);
+					break;
+				} else {
+					System.out.println("Houve erro para essa interação" + entrada[0] + "," + entrada[1] + ", " + saida);
+					double[] novosPesos = atualizarPesos(entradasX, pesos, saidaEsperada, saidaPerceptron);
+				}
+
+			}
+
+		}
 
 	}
 
-    private static void separarEntradas(double[] itemEntrada, List<int> saidas)
-    {
-    	int bias = 1;
-      entradasX = new double[] { itemEntrada[0], itemEntrada[1], bias };
-      saida = saidas[0];
+	private static void separarEntradas(Double[] itemEntrada, List<Integer> saidas) {
 
-    }
+		entradasX = new Double[] { itemEntrada[0], itemEntrada[1] };
+
+		for (int i = 0; i <= saidas.size(); i++) {
+			saida = i;
+
+		}
+
+	}
 
 }

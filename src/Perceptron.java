@@ -23,7 +23,7 @@ public class Perceptron {
 
         //Valores Saídas
 
-       List<int> saidas = new ArrayList<>();
+       List<Integer> saidas = new ArrayList<>();
   	     saidas.add(1);
          saidas.add(-1);
          saidas.add(1);
@@ -43,10 +43,10 @@ public class Perceptron {
 
        double peso3 = new Random().nextDouble();
 
-       Double[] pesos = new Double[]{peso1,peso2,peso3};
+       double[] pesos = new double[]{peso1,peso2,peso3};
 
        Neuronio n = new Neuronio();
-       n.treinamento(Double[] entradas, Double[] pesos, List<int> saidas);
+       n.treinamento(entradas, pesos, saidas);
 
 
 
