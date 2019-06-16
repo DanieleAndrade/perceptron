@@ -4,14 +4,14 @@ public class Neuronio {
 
 	private static Double[] entradasX;
 	private static int saida;
+	private double[] novosPesos;
 
-	private int verifica(double resultado) {
-
+	private int ativacao(double resultado) {
 		if (resultado < 0) {
 			return -1;
-		} else {
-			return 1;
 		}
+
+		return 1;
 	}
 
 	private int perceptron(Double[] entradas, double[] pesos) {
@@ -21,12 +21,11 @@ public class Neuronio {
 		for (Double peso : pesos) {
 			for (int i = 0; i < entradas.length; i++) {
 				resultado += peso * entradas[i];
-				i += 1;
 				break;
 			}
 		}
 
-		return verifica(resultado);
+		return ativacao(resultado);
 	}
 
 	public static double[] atualizarPesos(Double[] entradasX2, double[] pesos, int saidaEsperada, int saidaPerceptron) {
@@ -46,40 +45,41 @@ public class Neuronio {
 
 	public void treinamento(List<Double[]> entradas, double[] pesos, List<Integer> saidas) {
 
-		boolean erro = true;
-		int saidaEsperada = saida;
+		boolean erro = false;
+		novosPesos = pesos;
 
 		for (Double[] entrada : entradas) {
 
-			separarEntradas(entrada, saidas);
+			int indexEntra = entradas.indexOf(entrada);
+			double vies = 1;
+			entradasX = new Double[] { entrada[0], entrada[1], vies };
+			saida = saidas.get(indexEntra);
 
-			while (erro) {
+			int saidaEsperada = saida;
+
+			while (true) {
 
 				int saidaPerceptron = perceptron(entradasX, pesos);
 
 				if (saidaEsperada == saidaPerceptron) {
-					erro = false;
 					System.out.println(
-							"Não houve erro para essa interação" + entrada[0] + "," + entrada[1] + ", " + saida);
+							"Não houve erro para essa interação " + entrada[0] + "," + entrada[1] + ", " + saida);
 					break;
 				} else {
-					System.out.println("Houve erro para essa interação" + entrada[0] + "," + entrada[1] + ", " + saida);
-					double[] novosPesos = atualizarPesos(entradasX, pesos, saidaEsperada, saidaPerceptron);
+					erro = true;
+					System.out
+							.println("Houve erro para essa interação " + entrada[0] + "," + entrada[1] + ", " + saida);
+					novosPesos = atualizarPesos(entradasX, pesos, saidaEsperada, saidaPerceptron);
 				}
 
 			}
 
 		}
 
-	}
-
-	private static void separarEntradas(Double[] itemEntrada, List<Integer> saidas) {
-
-		entradasX = new Double[] { itemEntrada[0], itemEntrada[1] };
-
-		for (int i = 0; i <= saidas.size(); i++) {
-			saida = i;
-
+		if (erro) {
+			treinamento(entradas, novosPesos, saidas);
+			System.out.println("entrou no método");
+			System.out.println("Pesos finais: (" + novosPesos[0] + "," + novosPesos[1] + ", " + novosPesos[2] + ")");
 		}
 
 	}
