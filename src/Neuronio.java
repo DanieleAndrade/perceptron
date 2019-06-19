@@ -16,12 +16,12 @@ public class Neuronio {
 	private int perceptron(Double[] entradas, double[] pesos) {
 
 		double resultado = 0.0;
-    int index = 0;
+    	int index = 0;
 
 		for (Double peso : pesos) {
 			for (int i = index; i < entradas.length; i++) {
 				resultado += peso * entradas[i];
-        index += 1;
+        		index += 1;
 				break;
 			}
 		}
@@ -62,13 +62,11 @@ public class Neuronio {
 				int saidaPerceptron = perceptron(entradasX, pesos);
 
 				if (saidaEsperada == saidaPerceptron) {
-					System.out.println(
-							"Não houve erro para essa entrada " + entrada[0] + "," + entrada[1] + ", " + saida);
+					System.out.println("Não houve erro para essa entrada " + entrada[0] + "," + entrada[1] + ", " + saida);
 					break;
 				} else {
 					erro = true;
-					System.out
-							.println("Houve erro para essa entrada " + entrada[0] + "," + entrada[1] + ", " + saida);
+					System.out.println("Houve erro para essa entrada " + entrada[0] + "," + entrada[1] + ", " + saida);
 					pesos = atualizarPesos(entradasX, pesos, saidaEsperada, saidaPerceptron);
 				}
 
